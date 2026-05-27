@@ -11,11 +11,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _cityController = TextEditingController();
   final WeatherApi _weatherApi = WeatherApi();
+  String? _temperature;
 
   @override
   void dispose() {
     _cityController.dispose();
     super.dispose();
+  }
+
+  Future<void> _searchWeather() async {
+    final city = _cityController.text;
+    final coordinates = await _weatherApi.getCoordinates(city);
+    if (coordinates == null) return;
+
+    final weather = await _weatherApi.getWeather(
+      coordinates['latitude'],
+      coordinates['longitude'],
+    );
+    if (weather == null) return;
+
+    setState(() {
+      _temperature = weather['temperature_2m'].toString();
+    });
   }
 
   @override
@@ -41,12 +58,12 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 16),
               SizedBox(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _searchWeather,
                   child: const Text('Rechercher'),
                 ),
               ),
             const SizedBox(height: 32),
-            const Text('coucou'),
+            if (_temperature != null) ...[Text('Température = $_temperature °C'),],
           ],
         ),
       ),

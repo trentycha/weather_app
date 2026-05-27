@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
       title: 'Weather App',
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 92, 192, 218)),
