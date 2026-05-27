@@ -12,6 +12,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _cityController = TextEditingController();
   final WeatherApi _weatherApi = WeatherApi();
   String? _temperature;
+  String? _cityName;
+  String? _windSpeed;
 
   @override
   void dispose() {
@@ -32,6 +34,8 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       _temperature = weather['temperature_2m'].toString();
+      _windSpeed = weather['wind_speed_10m'].toString();
+      _cityName = coordinates['name'];
     });
   }
 
@@ -63,7 +67,18 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             const SizedBox(height: 32),
-            if (_temperature != null) ...[Text('Température = $_temperature °C'),],
+            if (_temperature != null) 
+            Card(
+              child: Padding (padding:  const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text('Ville: $_cityName', style: const TextStyle(fontSize: 20)),
+                  Text('Température: $_temperature °C', style: const TextStyle(fontSize: 20)),
+                  Text('Vitesse du vent: $_windSpeed km/h', style: const TextStyle(fontSize: 20)),
+                ],
+              )
+              ,)
+            ),
           ],
         ),
       ),
