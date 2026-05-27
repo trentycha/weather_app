@@ -36,6 +36,15 @@ class _HomePageState extends State<HomePage> {
                   border: OutlineInputBorder(),
                 ),
               ),
+            const SizedBox(height: 16),
+              SizedBox(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Rechercher'),
+                ),
+              ),
+            const SizedBox(height: 32),
+            const Text('coucou'),
           ],
         ),
       ),
