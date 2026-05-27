@@ -52,52 +52,61 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Votre météo du jour !',
-              style: TextStyle(fontSize: 32),
-            ),
-            const SizedBox(height: 32),
-              TextField(
-                controller: _cityController,
-                decoration: const InputDecoration(
-                  labelText: 'Nom de la ville',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            const SizedBox(height: 16),
-              SizedBox(
-                child: ElevatedButton(
-                  onPressed: _searchWeather,
-                  child: const Text('Rechercher'),
-                ),
-              ),
-            const SizedBox(height: 32),
-            if (_temperature != null) 
-            Card(
-              child: Padding (padding:  const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text('Ville: $_cityName', style: const TextStyle(fontSize: 20)),
-                  Text('Température: $_temperature °C', style: const TextStyle(fontSize: 20)),
-                  Text('Vitesse du vent: $_windSpeed km/h', style: const TextStyle(fontSize: 20)),
-                  if (_weatherCode != null)
-                    Icon(
-                      _getWeatherIcon(_weatherCode!),
-                      size: 48,
-                    ),
-                  const SizedBox(height: 8),
-                ],
-              )
-              ,)
-            ),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color.fromARGB(255, 71, 126, 171), Color.fromARGB(255, 165, 213, 235)],
+          ),
         ),
-      ),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Votre météo du jour !',
+                style: TextStyle(fontSize: 32),
+              ),
+              const SizedBox(height: 32),
+                TextField(
+                  controller: _cityController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nom de la ville',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              const SizedBox(height: 16),
+                SizedBox(
+                  child: ElevatedButton(
+                    onPressed: _searchWeather,
+                    child: const Text('Rechercher'),
+                  ),
+                ),
+              const SizedBox(height: 32),
+              if (_temperature != null) 
+              Card(
+                child: Padding (padding:  const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text('Ville: $_cityName', style: const TextStyle(fontSize: 20)),
+                    Text('$_temperature °C', style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold)),
+                    Text('Vitesse du vent: $_windSpeed km/h', style: const TextStyle(fontSize: 20)),
+                    if (_weatherCode != null)
+                      Icon(
+                        _getWeatherIcon(_weatherCode!),
+                        size: 48,
+                      ),
+                    const SizedBox(height: 8),
+                  ],
+                )
+                ,)
+              ),
+            ],
+          ),
+        ),
+      )
     );
   }
 }
