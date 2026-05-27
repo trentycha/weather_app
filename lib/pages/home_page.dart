@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
   String? _temperature;
   String? _cityName;
   String? _windSpeed;
+  int? _weatherCode;
 
   @override
   void dispose() {
@@ -36,7 +37,16 @@ class _HomePageState extends State<HomePage> {
       _temperature = weather['temperature_2m'].toString();
       _windSpeed = weather['wind_speed_10m'].toString();
       _cityName = coordinates['name'];
+      _weatherCode = weather['weather_code'];
     });
+  }
+
+  IconData _getWeatherIcon(int code) {
+    if (code == 0) return Icons.wb_sunny;
+    if (code <= 3) return Icons.cloud;
+    if (code <= 67) return Icons.grain;
+    if (code <= 77) return Icons.ac_unit;
+    return Icons.thunderstorm;
   }
 
   @override
@@ -75,6 +85,12 @@ class _HomePageState extends State<HomePage> {
                   Text('Ville: $_cityName', style: const TextStyle(fontSize: 20)),
                   Text('Température: $_temperature °C', style: const TextStyle(fontSize: 20)),
                   Text('Vitesse du vent: $_windSpeed km/h', style: const TextStyle(fontSize: 20)),
+                  if (_weatherCode != null)
+                    Icon(
+                      _getWeatherIcon(_weatherCode!),
+                      size: 48,
+                    ),
+                  const SizedBox(height: 8),
                 ],
               )
               ,)
