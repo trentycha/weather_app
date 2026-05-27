@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../api/weather_api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _cityController = TextEditingController();
+  final WeatherApi _weatherApi = WeatherApi();
 
   @override
   void dispose() {
