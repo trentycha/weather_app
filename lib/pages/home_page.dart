@@ -8,37 +8,81 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   final TextEditingController _cityController = TextEditingController();
   final WeatherApi _weatherApi = WeatherApi();
   String? _temperature;
   String? _cityName;
   String? _windSpeed;
   int? _weatherCode;
+  String? _errorMessage;
+  bool _isLoading = false;
+  late AnimationController _rotationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat();
+  }
 
   @override
   void dispose() {
     _cityController.dispose();
+    _rotationController.dispose();
     super.dispose();
   }
 
   Future<void> _searchWeather() async {
-    final city = _cityController.text;
-    final coordinates = await _weatherApi.getCoordinates(city);
-    if (coordinates == null) return;
+    try{
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+        _temperature = null;
+        _cityName = null;
+        _windSpeed = null;
+        _weatherCode = null;
+      });
 
-    final weather = await _weatherApi.getWeather(
-      coordinates['latitude'],
-      coordinates['longitude'],
-    );
-    if (weather == null) return;
+      final city = _cityController.text;
+      if (city.isEmpty) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = 'Saisissez une ville';
+        });
+        return;
+      }
+      final coordinates = await _weatherApi.getCoordinates(city);
+      if (coordinates == null) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = 'Ville introuvable';
+        });
+        return;
+      }
 
-    setState(() {
-      _temperature = (weather['temperature_2m'] as double).round().toString();
-      _windSpeed = weather['wind_speed_10m'].toString();
-      _cityName = coordinates['name'];
-      _weatherCode = weather['weather_code'];
-    });
+      final weather = await _weatherApi.getWeather(
+        coordinates['latitude'],
+        coordinates['longitude'],
+      );
+      if (weather == null) return;
+
+      setState(() {
+        _isLoading = false;
+        _errorMessage = null;
+        _temperature = (weather['temperature_2m'] as double).round().toString();
+        _windSpeed = weather['wind_speed_10m'].toString();
+        _cityName = coordinates['name'];
+        _weatherCode = weather['weather_code'];
+      });
+    } catch (e) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = 'Erreur réseau, vérifiez votre connexion.';
+        });
+    }
   }
 
   String _getWeatherImage(int code) {
@@ -110,6 +154,39 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+              if (_isLoading)
+                Expanded(
+                  child: Center(
+                    child: RotationTransition(
+                      turns: _rotationController,
+                      child: Image.asset(
+                        'assets/images/spinner.png',
+                        height: 80,
+                      ),
+                    ),
+                  ),
+                ),
+              if (_errorMessage != null)
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        _errorMessage!,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
               const SizedBox(height: 32),
               if (_temperature != null)
                 Card(
