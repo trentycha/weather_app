@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     if (weather == null) return;
 
     setState(() {
-      _temperature = weather['temperature_2m'].toString();
+      _temperature = (weather['temperature_2m'] as double).round().toString();
       _windSpeed = weather['wind_speed_10m'].toString();
       _cityName = coordinates['name'];
       _weatherCode = weather['weather_code'];
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     return Icons.thunderstorm;
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -57,64 +57,97 @@ class _HomePageState extends State<HomePage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color.fromARGB(255, 71, 126, 171), Color.fromARGB(255, 165, 213, 235)],
+            colors: [
+              Color.fromARGB(255, 71, 126, 171),
+              Color.fromARGB(255, 165, 213, 235),
+            ],
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(height: 60),
               const Text(
                 'Votre météo du jour !',
-                style: TextStyle(fontSize: 32),
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 32),
-                TextField(
-                  controller: _cityController,
-                  decoration: const InputDecoration(
-                    labelText: 'Nom de la ville',
-                    border: OutlineInputBorder(),
-                  ),
+              TextField(
+                controller: _cityController,
+                decoration: const InputDecoration(
+                  labelText: 'Nom de la ville',
+                  border: OutlineInputBorder(),
                 ),
+              ),
               const SizedBox(height: 16),
-                SizedBox(
-                  child: ElevatedButton(
-                    onPressed: _searchWeather,
-                    child: const Text('Rechercher'),
+              ElevatedButton(
+                onPressed: _searchWeather,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 48,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-              const SizedBox(height: 32),
-              if (_temperature != null) 
-              Card(
-                child: Padding (padding:  const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    if (_weatherCode != null)
-                      Icon(
-                        _getWeatherIcon(_weatherCode!),
-                        size: 64,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _cityName ?? '',
-                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '$_temperature°',
-                        style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      Text('Vent : $_windSpeed km/h'),
-                  ],
-                )
-                ,)
+                child: const Text(
+                  'Rechercher',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
+              const SizedBox(height: 32),
+              if (_temperature != null)
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 54.0),
+                      child: Column(
+                        children: [
+                          if (_weatherCode != null)
+                            Icon(
+                              _getWeatherIcon(_weatherCode!),
+                              size: 120,
+                            ),
+                          const SizedBox(height: 12),
+                          Text(
+                            _cityName ?? '',
+                            style: const TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            '$_temperature°',
+                            style: const TextStyle(
+                              fontSize: 100,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text('Vent : $_windSpeed km/h'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 }
