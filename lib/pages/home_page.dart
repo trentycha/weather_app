@@ -18,6 +18,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   String? _errorMessage;
   bool _isLoading = false;
   late AnimationController _rotationController;
+  String? _humidity;
+  String? _feel;
+  String? _uvIndex;
 
   @override
   void initState() {
@@ -44,6 +47,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         _cityName = null;
         _windSpeed = null;
         _weatherCode = null;
+        _humidity = null;
+        _feel = null;
+        _uvIndex = null;
       });
 
       final city = _cityController.text;
@@ -76,6 +82,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         _windSpeed = weather['wind_speed_10m'].toString();
         _cityName = coordinates['name'];
         _weatherCode = weather['weather_code'];
+        _humidity = weather['relative_humidity_2m'].toString();
+        _feel = weather['apparent_temperature'].toString();
+        _uvIndex = weather['uv_index'].toString();
       });
     } catch (e) {
         setState(() {
@@ -210,23 +219,44 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             style: const TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 53, 53, 53),
                             ),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 6),
                           Text(
-                            '$_temperature°',
+                            '$_temperature°c',
                             style: const TextStyle(
                               fontSize: 100,
                               fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 53, 53, 53),
                             ),
                           ),
                           const SizedBox(height: 12),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Image.asset('assets/images/vent.png', height: 24),
-                              const SizedBox(width: 8),
-                              Text('$_windSpeed km/h'),
+                              Column(
+                                children: [
+                                  Image.asset('assets/images/vent.png', height: 24),
+                                  const SizedBox(height: 4),
+                                  Text('Vent : $_windSpeed km/h'),
+                                  const SizedBox(height: 16),
+                                  Image.asset('assets/images/eau.png', height: 24),
+                                  const SizedBox(height: 4),
+                                  Text('Humidité : $_humidity %'),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Image.asset('assets/images/temperature.png', height: 24),
+                                  const SizedBox(height: 4),
+                                  Text('Ressenti : $_feel°'),
+                                  const SizedBox(height: 16),
+                                  Image.asset('assets/images/soleil.png', height: 24),
+                                  const SizedBox(height: 4),
+                                  Text('UV : $_uvIndex'),
+                                ],
+                              ),
                             ],
                           ),
                         ],
