@@ -41,12 +41,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  IconData _getWeatherIcon(int code) {
-    if (code == 0) return Icons.wb_sunny;
-    if (code <= 3) return Icons.cloud;
-    if (code <= 67) return Icons.grain;
-    if (code <= 77) return Icons.ac_unit;
-    return Icons.thunderstorm;
+  String _getWeatherImage(int code) {
+    if (code == 0) return 'assets/images/soleil.png';
+    if (code <= 3) return 'assets/images/nuage.png';
+    if (code <= 67) return 'assets/images/pluie.png';
+    if (code <= 77) return 'assets/images/neige.png';
+    return 'assets/images/orage.png';
   }
 
  @override
@@ -80,9 +80,14 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 32),
               TextField(
                 controller: _cityController,
-                decoration: const InputDecoration(
-                  labelText: 'Nom de la ville',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  hintText: 'Nom de votre ville',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -117,9 +122,9 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           if (_weatherCode != null)
-                            Icon(
-                              _getWeatherIcon(_weatherCode!),
-                              size: 120,
+                            Image.asset(
+                              _getWeatherImage(_weatherCode!),
+                              height: 120,
                             ),
                           const SizedBox(height: 12),
                           Text(
