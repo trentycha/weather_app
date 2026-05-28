@@ -90,15 +90,23 @@ class _HomePageState extends State<HomePage> {
                 child: Padding (padding:  const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text('Ville: $_cityName', style: const TextStyle(fontSize: 20)),
-                    Text('$_temperature °C', style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold)),
-                    Text('Vitesse du vent: $_windSpeed km/h', style: const TextStyle(fontSize: 20)),
                     if (_weatherCode != null)
                       Icon(
                         _getWeatherIcon(_weatherCode!),
-                        size: 48,
+                        size: 64,
                       ),
-                    const SizedBox(height: 8),
+                      const SizedBox(height: 8),
+                      Text(
+                        _cityName ?? '',
+                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '$_temperature°',
+                        style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text('Vent : $_windSpeed km/h'),
                   ],
                 )
                 ,)
