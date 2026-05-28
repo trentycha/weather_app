@@ -72,42 +72,43 @@ class _HomePageState extends State<HomePage> {
               const Text(
                 'Votre météo du jour !',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 38,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
               const SizedBox(height: 32),
-              TextField(
-                controller: _cityController,
-                decoration: InputDecoration(
-                  hintText: 'Nom de votre ville',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _cityController,
+                      decoration: InputDecoration(
+                        hintText: 'Nom de votre ville',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _searchWeather,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                    horizontal: 48,
+                  const SizedBox(width: 6),
+                  ElevatedButton(
+                    onPressed: _searchWeather,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.blue,
+                      padding: const EdgeInsets.all(16),
+                      shape: const CircleBorder(),
+                    ),
+                    child: Image.asset(
+                      'assets/images/loupe.png',
+                      height: 24,
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  'Rechercher',
-                  style: TextStyle(fontSize: 16),
-                ),
+                ],
               ),
               const SizedBox(height: 32),
               if (_temperature != null)
@@ -143,7 +144,14 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          Text('Vent : $_windSpeed km/h'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/vent.png', height: 24),
+                              const SizedBox(width: 8),
+                              Text('$_windSpeed km/h'),
+                            ],
+                          ),
                         ],
                       ),
                     ),
