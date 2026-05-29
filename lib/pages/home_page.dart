@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../api/weather_api.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       if (city.isEmpty) {
         setState(() {
           _isLoading = false;
-          _errorMessage = 'Saisissez une ville';
+          _errorMessage = 'enter_city'.tr();
         });
         return;
       }
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       if (coordinates == null) {
         setState(() {
           _isLoading = false;
-          _errorMessage = 'Ville introuvable';
+          _errorMessage = 'city_not_found'.tr();
         });
         return;
       }
@@ -89,7 +90,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     } catch (e) {
         setState(() {
           _isLoading = false;
-          _errorMessage = 'Erreur réseau, vérifiez votre connexion.';
+          _errorMessage = 'network_error'.tr();
         });
     }
   }
@@ -122,8 +123,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 60),
-              const Text(
-                'Votre météo du jour !',
+              Text(
+                'title'.tr(),
                 style: TextStyle(
                   fontSize: 38,
                   fontWeight: FontWeight.bold,
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     child: TextField(
                       controller: _cityController,
                       decoration: InputDecoration(
-                        hintText: 'Nom de votre ville',
+                        hintText: 'hint'.tr(),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -239,22 +240,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                 children: [
                                   Image.asset('assets/images/vent.png', height: 24),
                                   const SizedBox(height: 4),
-                                  Text('Vent : $_windSpeed km/h'),
+                                  Text('${'wind'.tr()} : $_windSpeed km/h'),
                                   const SizedBox(height: 16),
                                   Image.asset('assets/images/eau.png', height: 24),
                                   const SizedBox(height: 4),
-                                  Text('Humidité : $_humidity %'),
+                                  Text('${'humidity'.tr()} : $_humidity %'),
                                 ],
                               ),
                               Column(
                                 children: [
                                   Image.asset('assets/images/temperature.png', height: 24),
                                   const SizedBox(height: 4),
-                                  Text('Ressenti : $_feel°'),
+                                  Text('${'feels_like'.tr()} : $_feel°'),
                                   const SizedBox(height: 16),
                                   Image.asset('assets/images/soleil.png', height: 24),
                                   const SizedBox(height: 4),
-                                  Text('UV : $_uvIndex'),
+                                  Text('${'uv'.tr()} : $_uvIndex'),
                                 ],
                               ),
                             ],

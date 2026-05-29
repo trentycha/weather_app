@@ -1,0 +1,12 @@
+{
+  "title": "Votre météo du jour !",
+  "hint": "Nom de votre ville",
+  "wind": "Vent",
+  "feels_like": "Ressenti",
+  "uv": "UV",
+  "humidity": "Humidité",
+  "temperature": "Température",
+  "city_not_found": "Ville introuvable",
+  "enter_city": "Saisissez une ville",
+  "network_error": "Erreur réseau, vérifiez votre connexion"
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Today's weather!",
+  "hint": "Your city name",
+  "wind": "Wind",
+  "feels_like": "Feels like",
+  "uv": "UV",
+  "humidity": "Humidity",
+  "temperature": "Temperature",
+  "city_not_found": "City not found",
+  "enter_city": "Please enter a city",
+  "network_error": "Network error, check your connection"
+}
